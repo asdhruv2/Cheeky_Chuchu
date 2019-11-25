@@ -2,21 +2,36 @@ package com.example.cheekychuchu;
 
 import androidx.fragment.app.FragmentActivity;
 
-import android.content.Intent;
-import android.os.Bundle;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.location.Location;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.util.Random;
 
 public class GameActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-
+    private FusedLocationProviderClient fusedLocationProviderClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,17 +55,121 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         // Add a marker in Sydney and move the camera
-        Intent intent = getIntent();
-        float bearing = intent.getFloatExtra("bearing", 0);
-        double lat = intent.getDoubleExtra("Lat", 0);
-        double lon = intent.getDoubleExtra("Lon", 0);
-        float tilt = intent.getFloatExtra("tilt", 0);
-        float zoom = intent.getFloatExtra("zoom", 0);
-        CameraPosition cameraPosition = new CameraPosition(new LatLng(lat, lon), zoom, tilt, bearing);
-        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        mMap.setMyLocationEnabled(true);
+
+         Intent intent = getIntent();
+         float bearing = intent.getFloatExtra("bearing", 0);
+         double lat = intent.getDoubleExtra("Lat", 0);
+         double lon = intent.getDoubleExtra("Lon", 0);
+         float tilt = intent.getFloatExtra("tilt", 0);
+         float zoom = intent.getFloatExtra("zoom", 0);
+         CameraPosition cameraPosition = new CameraPosition(new LatLng(lat, lon), zoom, tilt, bearing);
+         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+         mMap.setMyLocationEnabled(true);
+        LatLng bottomLeft =
+                mMap.getProjection().getVisibleRegion().nearLeft;
+        Log.e("AAA", "AAAA");
+
+        LatLng topRight =
+                mMap.getProjection().getVisibleRegion().farRight;
+        double top = topRight.latitude;
+        double bottom = bottomLeft.latitude;
+        double right = topRight.longitude;
+        double left = bottomLeft.longitude;
+        double r1 = Math.random();
+        double r2 = Math.random();
+        double ranLat = (top - bottom) * r1;
+        double ranLong = (right - left) * r2;
+        LatLng randomLocation = new LatLng((bottom + ranLat), (left + ranLong));
+        MarkerOptions markerOptions = new MarkerOptions().position(randomLocation).icon(BitmapDescriptorFactory.fromResource(R.drawable.chuchuling));
+        call();
+
+
+        /*
+                mMap.setMinZoomPreference(16.8f);
+        mMap.setMaxZoomPreference(17.2f);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                Toast.makeText(GameActivity.this, "h8fw", Toast.LENGTH_SHORT).show();
+                if (location != null) {
+                    Toast.makeText(GameActivity.this, "YEAHHh", Toast.LENGTH_SHORT).show();
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+                    mMap.setMyLocationEnabled(true);
+                }
+            }
+        });
+         */
+
+    }
+    int count = 0;
+    public void call() {
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    LatLng bottomLeft =
+                            mMap.getProjection().getVisibleRegion().nearLeft;
+                    Log.e("AAA", "AAAA");
+
+                    LatLng topRight =
+                            mMap.getProjection().getVisibleRegion().farRight;
+                    double top = topRight.latitude;
+                    double bottom = bottomLeft.latitude;
+                    double right = topRight.longitude;
+                    double left = bottomLeft.longitude;
+                    double r1 = Math.random();
+                    double r2 = Math.random();
+                    double ranLat = (top - bottom) * r1;
+                    double ranLong = (right - left) * r2;
+                    LatLng randomLocation = new LatLng((bottom + ranLat), (left + ranLong));
+                    MarkerOptions markerOptions = new MarkerOptions().position(randomLocation).icon(BitmapDescriptorFactory.fromResource(R.drawable.chuchuling));
+                    Marker chuchOnMap = mMap.addMarker(markerOptions);
+                    float[] f = new float[2];
+                    Location.distanceBetween(chuchOnMap.getPosition().latitude,
+                            chuchOnMap.getPosition().longitude, location.getLatitude(),
+                            location.getLongitude(), f);
+                    float t = f[0];
+                    Toast.makeText(GameActivity.this,t + "", Toast.LENGTH_SHORT).show();
+                    if (f[0] < 300) {
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(GameActivity.this);
+                        builder1.setCancelable(false);
+                        builder1.setTitle("You Won!");
+
+                        builder1.setPositiveButton(
+                                "Return to Home Screen",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(intent);
+                                    }
+                                });
+
+                        AlertDialog alert11 = builder1.create();
+                        alert11.show();
+                    } else {
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                // Actions to do after 10 seconds
+                                Toast.makeText(GameActivity.this, "YEAHNNN", Toast.LENGTH_SHORT).show();
+                                count++;
+                                mMap.clear();
+                                    Handler handler1 = new Handler();
+                                    handler1.postDelayed(new Runnable() {
+                                        public void run() {
+                                            call();
+                                        }
+                                    }, 1000);
+                                }
+                        }, 5000);
+                    }
+
+                }
+            }
+        });
 
     }
 }
