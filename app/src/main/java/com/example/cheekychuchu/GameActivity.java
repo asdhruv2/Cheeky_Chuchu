@@ -56,7 +56,7 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         // Add a marker in Sydney and move the camera
-
+         mMap.getUiSettings().setAllGesturesEnabled(false);
          Intent intent = getIntent();
          float bearing = intent.getFloatExtra("bearing", 0);
          double lat = intent.getDoubleExtra("Lat", 0);
@@ -76,13 +76,11 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
         double bottom = bottomLeft.latitude;
         double right = topRight.longitude;
         double left = bottomLeft.longitude;
-        double r1 = Math.random();
-        double r2 = Math.random();
-        double ranLat = (top - bottom) * r1;
-        double ranLong = (right - left) * r2;
-        LatLng randomLocation = new LatLng((bottom + ranLat), (left + ranLong));
-        MarkerOptions markerOptions = new MarkerOptions().position(randomLocation).icon(BitmapDescriptorFactory.fromResource(R.drawable.chuchuling));
-        call();
+        double ranLat = bottom;
+        double ranLong = left;
+        Log.e("top",  top + "");
+        Log.e("bottom",  bottom + "");
+        call(ranLat, ranLong, (top - bottom) / 50);
 
 
         /*
@@ -103,8 +101,7 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
          */
 
     }
-    int count = 0;
-    public void call() {
+    public void call(final double a, final double b, final double stepLength) {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
             @Override
@@ -112,7 +109,6 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
                 if (location != null) {
                     LatLng bottomLeft =
                             mMap.getProjection().getVisibleRegion().nearLeft;
-                    Log.e("AAA", "AAAA");
 
                     LatLng topRight =
                             mMap.getProjection().getVisibleRegion().farRight;
@@ -122,9 +118,48 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
                     double left = bottomLeft.longitude;
                     double r1 = Math.random();
                     double r2 = Math.random();
-                    double ranLat = (top - bottom) * r1;
-                    double ranLong = (right - left) * r2;
-                    LatLng randomLocation = new LatLng((bottom + ranLat), (left + ranLong));
+                    final double ranLat = a;
+                    final double ranLong = b;
+                    final double x;
+                    final double y;
+                    //double ranLat = (top - bottom) * r1;
+                    //double ranLong = (right - left) * r2;
+                    if (r1 < 0.5) {
+                        if (ranLat + stepLength < top) {
+                            y = ranLat +  stepLength;
+                        } else if (ranLat - stepLength > bottom) {
+                            y = ranLat - stepLength;
+                        } else {
+                            y = ranLat;
+                        }
+                    } else {
+                        if (ranLat - stepLength > bottom) {
+                            y = ranLat - stepLength;
+                        } else if (ranLat + stepLength < top) {
+                            y = ranLat + stepLength;
+                        } else {
+                            y = ranLat;
+                        }
+                    }
+                    if (r2 < 0.5) {
+                        if (ranLong + stepLength < right) {
+                            x = ranLong +  stepLength;
+                        } else if (ranLong - stepLength > left) {
+                            x = ranLong - stepLength;
+                        } else {
+                            x = ranLong;
+                        }
+                    } else {
+                        if (ranLong - stepLength > left) {
+                            x = ranLong - stepLength;
+                        } else if (ranLong + stepLength < right) {
+                            x = ranLong + stepLength;
+                        } else {
+                            x = ranLong;
+                        }
+                    }
+
+                    LatLng randomLocation = new LatLng((ranLat), (ranLong));
                     MarkerOptions markerOptions = new MarkerOptions().position(randomLocation).icon(BitmapDescriptorFactory.fromResource(R.drawable.chuchuling));
                     Marker chuchOnMap = mMap.addMarker(markerOptions);
                     float[] f = new float[2];
@@ -132,8 +167,8 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
                             chuchOnMap.getPosition().longitude, location.getLatitude(),
                             location.getLongitude(), f);
                     float t = f[0];
-                    Toast.makeText(GameActivity.this,t + "", Toast.LENGTH_SHORT).show();
-                    if (f[0] < 300) {
+                    //Toast.makeText(GameActivity.this,t + "", Toast.LENGTH_SHORT).show();
+                    if (f[0] < 100) {
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(GameActivity.this);
                         builder1.setCancelable(false);
                         builder1.setTitle("You Won!");
@@ -154,17 +189,17 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
                         handler.postDelayed(new Runnable() {
                             public void run() {
                                 // Actions to do after 10 seconds
-                                Toast.makeText(GameActivity.this, "YEAHNNN", Toast.LENGTH_SHORT).show();
-                                count++;
+                                //Toast.makeText(GameActivity.this, "YEAHNNN", Toast.LENGTH_SHORT).show();
                                 mMap.clear();
                                     Handler handler1 = new Handler();
                                     handler1.postDelayed(new Runnable() {
                                         public void run() {
-                                            call();
+                                            call(y, x, stepLength);
+
                                         }
-                                    }, 1000);
+                                    }, 1);
                                 }
-                        }, 5000);
+                        }, 50);
                     }
 
                 }
