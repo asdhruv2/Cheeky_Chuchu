@@ -40,16 +40,16 @@ public class ChoosingActivity extends AppCompatActivity implements OnMapReadyCal
                 1);
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(ChoosingActivity.this,
-                Manifest.permission.ACCESS_COARSE_LOCATION)
+                Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(this, "Your location is required to play the game!", Toast.LENGTH_SHORT).show();
             // Permission is not granted
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(ChoosingActivity.this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
 
                 // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
+                // this thread wafiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
                 ActivityCompat.requestPermissions(ChoosingActivity.this,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
@@ -57,7 +57,7 @@ public class ChoosingActivity extends AppCompatActivity implements OnMapReadyCal
             } else {
                 // No explanation needed; request the permission
                 ActivityCompat.requestPermissions(ChoosingActivity.this,
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         1);
 
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
@@ -148,7 +148,6 @@ public class ChoosingActivity extends AppCompatActivity implements OnMapReadyCal
         gmap = googleMap;
         gmap.setMinZoomPreference(16.8f);
         gmap.setMaxZoomPreference(17.2f);
-        LatLng ny = new LatLng(40.7143528, -74.0059731);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
             @Override
