@@ -66,6 +66,7 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
          CameraPosition cameraPosition = new CameraPosition(new LatLng(lat, lon), zoom, tilt, bearing);
          mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
          mMap.setMyLocationEnabled(true);
+         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         LatLng bottomLeft =
                 mMap.getProjection().getVisibleRegion().nearLeft;
         Log.e("AAA", "AAAA");
@@ -80,7 +81,14 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
         double ranLong = left;
         Log.e("top",  top + "");
         Log.e("bottom",  bottom + "");
-        call(ranLat, ranLong, (top - bottom) / 50);
+        double stepLength = (top - bottom) / 100;
+        double ran1 = Math.random();
+        double ran2 = Math.random();
+            double one = (top - bottom - (10 * stepLength)) * ran1;
+            double two = (right - left - (10 * stepLength)) * ran2;
+            double a = bottom + (stepLength * 5) + one;
+            double b = left + (stepLength * 5) + two;
+        call(a, b, (top - bottom) / 100);
 
 
         /*
@@ -122,53 +130,74 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
                     final double ranLong = b;
                     final double x;
                     final double y;
-                    //double ranLat = (top - bottom) * r1;
-                    //double ranLong = (right - left) * r2;
-                    if (r1 < 0.5) {
-                        if (ranLat + stepLength < top) {
-                            y = ranLat +  stepLength;
-                        } else if (ranLat - stepLength > bottom) {
-                            y = ranLat - stepLength;
-                        } else {
-                            y = ranLat;
-                        }
-                    } else {
-                        if (ranLat - stepLength > bottom) {
-                            y = ranLat - stepLength;
-                        } else if (ranLat + stepLength < top) {
-                            y = ranLat + stepLength;
-                        } else {
-                            y = ranLat;
-                        }
-                    }
-                    if (r2 < 0.5) {
-                        if (ranLong + stepLength < right) {
-                            x = ranLong +  stepLength;
-                        } else if (ranLong - stepLength > left) {
-                            x = ranLong - stepLength;
-                        } else {
-                            x = ranLong;
-                        }
-                    } else {
-                        if (ranLong - stepLength > left) {
-                            x = ranLong - stepLength;
-                        } else if (ranLong + stepLength < right) {
-                            x = ranLong + stepLength;
-                        } else {
-                            x = ranLong;
-                        }
-                    }
-
                     LatLng randomLocation = new LatLng((ranLat), (ranLong));
-                    MarkerOptions markerOptions = new MarkerOptions().position(randomLocation).icon(BitmapDescriptorFactory.fromResource(R.drawable.chuchuling));
+                    MarkerOptions markerOptions = new MarkerOptions().position(randomLocation).icon(BitmapDescriptorFactory.fromResource(R.drawable.chu));
                     Marker chuchOnMap = mMap.addMarker(markerOptions);
                     float[] f = new float[2];
                     Location.distanceBetween(chuchOnMap.getPosition().latitude,
                             chuchOnMap.getPosition().longitude, location.getLatitude(),
                             location.getLongitude(), f);
                     float t = f[0];
+                    //double ranLat = (top - bottom) * r1;
+                    //double ranLong = (right - left) * r2;
+                    if (r1 < 0.5) {
+                        //Log.e("A", "0.5");
+                        if (ranLat + close(stepLength, t, 150, new LatLng((ranLat + stepLength), ranLong), location) < top - (5 * stepLength)
+                        && ranLat + close(stepLength, t, 150, new LatLng((ranLat + stepLength), ranLong), location) > bottom + (5 * stepLength)) {
+                            y = ranLat +  close(stepLength, t, 150, new LatLng((ranLat + stepLength), ranLong), location);
+                        }
+                        /**
+                        else if (ranLat + close(-stepLength, t, 150, new LatLng((ranLat - stepLength), ranLong), location) > bottom + (10 * stepLength)) {
+                            y = ranLat + close(-stepLength, t, 150, new LatLng((ranLat - stepLength), ranLong), location);
+                        }
+                        */
+                        else {
+                            y = ranLat;
+                        }
+                    } else {
+                        if (ranLat + close(-stepLength, t, 150, new LatLng((ranLat - stepLength), ranLong), location) > bottom + (5 * stepLength)
+                        && ranLat + close(-stepLength, t, 150, new LatLng((ranLat - stepLength), ranLong), location) < top - (5 * stepLength)) {
+                            y = ranLat + close(- stepLength, t, 150, new LatLng((ranLat - stepLength), ranLong), location);
+                        }
+                        /**
+                        else if (ranLat + close(stepLength, t, 150, new LatLng((ranLat + stepLength), ranLong), location) < top - (10 * stepLength)) {
+                            y = ranLat + close(stepLength, t, 150, new LatLng((ranLat + stepLength), ranLong), location);
+                        }
+                         */
+                        else {
+                            y = ranLat;
+                        }
+                    }
+                    if (r2 < 0.5) {
+                        if (ranLong + close(stepLength, t, 150, new LatLng(ranLat, (ranLong + stepLength)), location) < right - (10 * stepLength)
+                        && ranLong + close(stepLength, t, 150, new LatLng(ranLat, (ranLong + stepLength)), location) > left + (10 * stepLength)) {
+                            x = ranLong + close(stepLength, t, 150, new LatLng(ranLat, (ranLong + stepLength)), location);
+                        }
+                        /**else if (ranLong + close( - stepLength, t, 150, new LatLng(ranLat, (ranLong - stepLength)), location) > left + (10 * stepLength)) {
+                            x = ranLong + close( - stepLength, t, 150, new LatLng(ranLat, (ranLong - stepLength)), location);
+                        }
+                         */
+                         else {
+                            x = ranLong;
+                        }
+                    } else {
+                        if (ranLong +  close(- stepLength, t, 150, new LatLng(ranLat, (ranLong - stepLength)), location)> left + (5 * stepLength)
+                        && ranLong +  close(- stepLength, t, 150, new LatLng(ranLat, (ranLong - stepLength)), location) < right - (5 * stepLength)) {
+                            x = ranLong + close(- stepLength, t, 150, new LatLng(ranLat, (ranLong - stepLength)), location);
+                        }
+                        /**
+
+                        else if (ranLong + close(stepLength, t, 150, new LatLng(ranLat, (ranLong + stepLength)), location) < right - (10 * stepLength)) {
+                            x = ranLong + close(stepLength, t, 150, new LatLng(ranLat, (ranLong + stepLength)), location);
+                        }
+                         */
+                        else {
+                            x = ranLong;
+                        }
+                    }
                     //Toast.makeText(GameActivity.this,t + "", Toast.LENGTH_SHORT).show();
-                    if (f[0] < 100) {
+                    if (f[0] < 50) {
+                        Log.e("less", "ess");
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(GameActivity.this);
                         builder1.setCancelable(false);
                         builder1.setTitle("You Won!");
@@ -183,6 +212,7 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
                                 });
 
                         AlertDialog alert11 = builder1.create();
+                        Toast.makeText(GameActivity.this, "catch", Toast.LENGTH_SHORT).show();
                         alert11.show();
                     } else {
                         Handler handler = new Handler();
@@ -199,12 +229,45 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
                                         }
                                     }, 1);
                                 }
-                        }, 50);
+                        }, 100);
                     }
-
                 }
             }
         });
 
     }
+    public double close(double move, float f, int pt, LatLng marker, Location location) {
+        if (f < pt) {
+            //Log.e("TEST", "LESS THAN PT");
+            float[] dist = new float[2];
+            Location.distanceBetween(marker.latitude,
+                    marker.longitude, location.getLatitude(),
+                    location.getLongitude(), dist);
+            float t = dist[0];
+            if (t > f) {
+                //Log.e("MOVE:", "AWAY");
+                return move;
+            } else {
+                //Log.e("MOVE:", "REVERSE");
+                return -move;
+            }
+        } else {
+            return move;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Toast.makeText(this, "You exited the game.", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        killActivity();
+        GameActivity.this.finish();
+    }
+    private void killActivity() {
+        finish();
+    }
+
 }
