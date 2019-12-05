@@ -1,5 +1,6 @@
 package com.example.cheekychuchu;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -25,7 +26,7 @@ public class IntroActivity extends AppIntro2 {
         // AppIntro will do the rest.
         SliderPage sliderPage = new SliderPage();
         sliderPage.setTitle("Test");
-        sliderPage.setDescription("OJOJIOFHJO");
+        sliderPage.setDescription("More Descriptions to be added soon");
         sliderPage.setImageDrawable(R.drawable.chu);
         sliderPage.setBgColor(255);
         addSlide(AppIntroFragment.newInstance(sliderPage));
@@ -36,24 +37,31 @@ public class IntroActivity extends AppIntro2 {
         //setSeparatorColor(Color.parseColor("#2196F3"));
 
         // Hide Skip/Done button.
-        showSkipButton(false);
-        setProgressButtonEnabled(false);
+        showSkipButton(true);
+        setProgressButtonEnabled(true);
 
         // Turn vibration on and set intensity.
         // NOTE: you will probably need to ask VIBRATE permission in Manifest.
-        setVibrate(true);
-        setVibrateIntensity(30);
+        //setVibrate(true);
+        //setVibrateIntensity(30);
+        SliderPage sliderPage1 = new SliderPage();
+        sliderPage1.setTitle("Just to see whether the skip button works or not");
+        addSlide(AppIntroFragment.newInstance(sliderPage1));
     }
 
     @Override
     public void onSkipPressed(Fragment currentFragment) {
         super.onSkipPressed(currentFragment);
+        Intent intent = new Intent(this, ChoosingActivity.class);
+        startActivity(intent);
         // Do something when users tap on Skip button.
     }
 
     @Override
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
+        Intent intent = new Intent(this, ChoosingActivity.class);
+        startActivity(intent);
         // Do something when users tap on Done button.
     }
 
