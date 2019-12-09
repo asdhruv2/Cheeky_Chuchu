@@ -27,9 +27,9 @@ public class IntroActivity extends AppIntro2 {
         // Just create a `SliderPage` and provide title, description, background and image.
         // AppIntro will do the rest.
         SliderPage sliderPage = new SliderPage();
-        sliderPage.setTitle("Test");
-        sliderPage.setDescription("More Descriptions to be added soon");
-        sliderPage.setImageDrawable(R.drawable.chu);
+        sliderPage.setTitle("Welcome to Cheeky Chuchu");
+        sliderPage.setImageDrawable(R.drawable.paw);
+        sliderPage.setDescription("This game will attempt to catch the cutest living being on the planet Earth");
         sliderPage.setBgColor(Color.parseColor("#E16E3C"));
         addSlide(AppIntroFragment.newInstance(sliderPage));
         // OPTIONAL METHODS
@@ -46,7 +46,9 @@ public class IntroActivity extends AppIntro2 {
         //setVibrate(true);
         //setVibrateIntensity(30);
         SliderPage sliderPage1 = new SliderPage();
-        sliderPage1.setTitle("Just to see whether the skip button works or not");
+        sliderPage1.setTitle("Rules");
+        sliderPage1.setImageDrawable(R.drawable.dog);
+        sliderPage1.setDescription("You will be able to catch chuchu when you are within chuchu's proximity of 50 meters" + "\n" + "You have 10 minutes to do so" + "\n" + "Best of luck!" + "\n" + "Chuchu awaits your presence around him");
         sliderPage1.setBgColor(Color.parseColor("#E16E3C"));
         addSlide(AppIntroFragment.newInstance(sliderPage1));
         askForPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 2);
