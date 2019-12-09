@@ -91,6 +91,12 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         // Add a marker in Sydney and move the camera
          mMap.getUiSettings().setAllGesturesEnabled(false);
+         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+             @Override
+             public boolean onMarkerClick(Marker marker) {
+                 return false;
+             }
+         });
          Intent intent = getIntent();
          float bearing = intent.getFloatExtra("bearing", 0);
          double lat = intent.getDoubleExtra("Lat", 0);
@@ -107,6 +113,7 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
 
         LatLng topRight =
                 mMap.getProjection().getVisibleRegion().farRight;
+
         double top = topRight.latitude;
         double bottom = bottomLeft.latitude;
         double right = topRight.longitude;

@@ -1,10 +1,12 @@
 package com.example.cheekychuchu;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.github.paolorotolo.appintro.AppIntro;
@@ -28,9 +30,8 @@ public class IntroActivity extends AppIntro2 {
         sliderPage.setTitle("Test");
         sliderPage.setDescription("More Descriptions to be added soon");
         sliderPage.setImageDrawable(R.drawable.chu);
-        sliderPage.setBgColor(255);
+        sliderPage.setBgColor(Color.parseColor("#E16E3C"));
         addSlide(AppIntroFragment.newInstance(sliderPage));
-
         // OPTIONAL METHODS
         // Override bar/separator color.
         setBarColor(Color.parseColor("#3F51B5"));
@@ -39,29 +40,33 @@ public class IntroActivity extends AppIntro2 {
         // Hide Skip/Done button.
         showSkipButton(true);
         setProgressButtonEnabled(true);
-
+        //setFlowAnimation();
         // Turn vibration on and set intensity.
         // NOTE: you will probably need to ask VIBRATE permission in Manifest.
         //setVibrate(true);
         //setVibrateIntensity(30);
         SliderPage sliderPage1 = new SliderPage();
         sliderPage1.setTitle("Just to see whether the skip button works or not");
+        sliderPage1.setBgColor(Color.parseColor("#E16E3C"));
         addSlide(AppIntroFragment.newInstance(sliderPage1));
+        askForPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 2);
     }
 
     @Override
     public void onSkipPressed(Fragment currentFragment) {
         super.onSkipPressed(currentFragment);
-        Intent intent = new Intent(this, ChoosingActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
         // Do something when users tap on Skip button.
     }
 
     @Override
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
-        Intent intent = new Intent(this, ChoosingActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
         // Do something when users tap on Done button.
     }
 
