@@ -33,16 +33,18 @@ import java.util.Random;
 
 public class GameActivity extends FragmentActivity implements OnMapReadyCallback {
     private CountDownTimer mCountDownTimer;
-    private static final long START_TIME_IN_MILLIS = 600000;
+    private static final long START_TIME_IN_MILLIS = 5000;
     private boolean mTimerRunning;
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+
     private TextView a;
     private void startTimer() {
+
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mTimeLeftInMillis = millisUntilFinished;
-                updateCountDownText();
+                updateCountDownText(a);
             }
             @Override
             public void onFinish() {
@@ -51,6 +53,7 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }.start();
     }
+
     private void updateCountDownText() {
         int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
         int seconds = (int) (mTimeLeftInMillis / 1000) % 60;

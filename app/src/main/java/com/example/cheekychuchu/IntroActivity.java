@@ -2,10 +2,14 @@ package com.example.cheekychuchu;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.github.paolorotolo.appintro.AppIntro2;
@@ -17,12 +21,12 @@ public class IntroActivity extends AppIntro2 {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SliderPage sliderPage = new SliderPage();
+
         sliderPage.setTitle("Welcome to Cheeky Chuchu");
         sliderPage.setImageDrawable(R.drawable.paw);
         sliderPage.setDescription("This game will attempt to catch the cutest living being on the planet Earth");
         sliderPage.setBgColor(Color.parseColor("#E16E3C"));
         addSlide(AppIntroFragment.newInstance(sliderPage));
-
         setBarColor(Color.parseColor("#3F51B5"));
 
         showSkipButton(true);
