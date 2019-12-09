@@ -2,10 +2,13 @@ package com.example.cheekychuchu;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -49,7 +52,7 @@ public class IntroActivity extends AppIntro2 {
         sliderPage1.setTitle("Just to see whether the skip button works or not");
         sliderPage1.setBgColor(Color.parseColor("#E16E3C"));
         addSlide(AppIntroFragment.newInstance(sliderPage1));
-        askForPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 2);
+        askForPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
     }
 
     @Override
