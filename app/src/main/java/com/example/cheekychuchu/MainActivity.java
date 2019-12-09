@@ -7,8 +7,10 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
+
 import android.os.Bundle;
+
+import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.animation.Animation;
@@ -16,6 +18,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.CameraPosition;
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                     requestPermission();
 
                 }
+
             }
         });
     }
