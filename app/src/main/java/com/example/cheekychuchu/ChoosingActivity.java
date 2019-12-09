@@ -148,7 +148,6 @@ public class ChoosingActivity extends AppCompatActivity implements OnMapReadyCal
         gmap = googleMap;
         gmap.setMinZoomPreference(16.8f);
         gmap.setMaxZoomPreference(17.2f);
-        gmap.getUiSettings().setRotateGesturesEnabled(false);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
             @Override
