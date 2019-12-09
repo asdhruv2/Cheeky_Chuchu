@@ -37,9 +37,6 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean mTimerRunning;
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     private TextView a;
-    public void timer() {
-        startTimer();
-    }
     private void startTimer() {
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
             @Override
@@ -49,13 +46,10 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
             }
             @Override
             public void onFinish() {
-                gameover();
+                Toast.makeText(getApplicationContext(), "You lost the game.", Toast.LENGTH_SHORT).show();
+                finish();
             }
         }.start();
-    }
-    private void gameover() {
-        Toast.makeText(this, "You lost the game.", Toast.LENGTH_SHORT).show();
-        finish();
     }
     private void updateCountDownText() {
         int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
@@ -74,7 +68,7 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         a = findViewById(R.id.timer);
-        timer();
+        startTimer();
     }
 
 
