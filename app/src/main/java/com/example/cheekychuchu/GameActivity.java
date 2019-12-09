@@ -46,13 +46,10 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
             }
             @Override
             public void onFinish() {
-                gameover();
+                Toast.makeText(getApplicationContext(), "You lost the game.", Toast.LENGTH_SHORT).show();
+                finish();
             }
         }.start();
-    }
-    private void gameover() {
-        Toast.makeText(this, "You lost the game.", Toast.LENGTH_SHORT).show();
-        finish();
     }
     private void updateCountDownText() {
         int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
