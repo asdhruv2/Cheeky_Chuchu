@@ -56,6 +56,7 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
     }
     private void gameover() {
         Toast.makeText(this, "You lost the game.", Toast.LENGTH_SHORT).show();
+        finish();
     }
     private void updateCountDownText() {
         int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
@@ -63,7 +64,6 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
         String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
         a.setText(timeLeftFormatted);
     }
-
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
     @Override
