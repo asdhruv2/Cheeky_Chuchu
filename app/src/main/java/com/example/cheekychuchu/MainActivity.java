@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         if (isFirstRun) {
             //show start activity
 
-            startActivity(new Intent(MainActivity.this, ChoosingActivity.class));
+            startActivity(new Intent(MainActivity.this, IntroActivity.class));
             Toast.makeText(MainActivity.this, "First Run", Toast.LENGTH_LONG)
                     .show();
         }
