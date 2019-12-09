@@ -16,8 +16,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.CameraPosition;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Locale;
 
+public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ChoosingActivity.class);
                 startActivity(intent);
-
             }
         });
     }
