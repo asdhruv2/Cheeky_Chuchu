@@ -33,18 +33,16 @@ import java.util.Random;
 
 public class GameActivity extends FragmentActivity implements OnMapReadyCallback {
     private CountDownTimer mCountDownTimer;
-    private static final long START_TIME_IN_MILLIS = 5000;
+    private static final long START_TIME_IN_MILLIS = 600000;
     private boolean mTimerRunning;
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
-
     private TextView a;
     private void startTimer() {
-
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mTimeLeftInMillis = millisUntilFinished;
-                updateCountDownText(a);
+                updateCountDownText();
             }
             @Override
             public void onFinish() {
@@ -53,7 +51,6 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }.start();
     }
-
     private void updateCountDownText() {
         int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
         int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
@@ -88,23 +85,23 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         // Add a marker in Sydney and move the camera
-         mMap.getUiSettings().setAllGesturesEnabled(false);
-         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-             @Override
-             public boolean onMarkerClick(Marker marker) {
-                 return false;
-             }
-         });
-         Intent intent = getIntent();
-         float bearing = intent.getFloatExtra("bearing", 0);
-         double lat = intent.getDoubleExtra("Lat", 0);
-         double lon = intent.getDoubleExtra("Lon", 0);
-         float tilt = intent.getFloatExtra("tilt", 0);
-         float zoom = intent.getFloatExtra("zoom", 0);
-         CameraPosition cameraPosition = new CameraPosition(new LatLng(lat, lon), zoom, tilt, bearing);
-         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-         mMap.setMyLocationEnabled(true);
-         mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        mMap.getUiSettings().setAllGesturesEnabled(false);
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                return false;
+            }
+        });
+        Intent intent = getIntent();
+        float bearing = intent.getFloatExtra("bearing", 0);
+        double lat = intent.getDoubleExtra("Lat", 0);
+        double lon = intent.getDoubleExtra("Lon", 0);
+        float tilt = intent.getFloatExtra("tilt", 0);
+        float zoom = intent.getFloatExtra("zoom", 0);
+        CameraPosition cameraPosition = new CameraPosition(new LatLng(lat, lon), zoom, tilt, bearing);
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
         LatLng bottomLeft =
                 mMap.getProjection().getVisibleRegion().nearLeft;
         Log.e("AAA", "AAAA");
@@ -123,10 +120,10 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
         double stepLength = (top - bottom) / 100;
         double ran1 = Math.random();
         double ran2 = Math.random();
-            double one = (top - bottom - (10 * stepLength)) * ran1;
-            double two = (right - left - (10 * stepLength)) * ran2;
-            double a = bottom + (stepLength * 5) + one;
-            double b = left + (stepLength * 5) + two;
+        double one = (top - bottom - (10 * stepLength)) * ran1;
+        double two = (right - left - (10 * stepLength)) * ran2;
+        double a = bottom + (stepLength * 5) + one;
+        double b = left + (stepLength * 5) + two;
         call(a, b, (top - bottom) / 100);
 
 
@@ -182,26 +179,26 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
                     if (r1 < 0.5) {
                         //Log.e("A", "0.5");
                         if (ranLat + close(stepLength, t, 150, new LatLng((ranLat + stepLength), ranLong), location) < top - (5 * stepLength)
-                        && ranLat + close(stepLength, t, 150, new LatLng((ranLat + stepLength), ranLong), location) > bottom + (5 * stepLength)) {
+                                && ranLat + close(stepLength, t, 150, new LatLng((ranLat + stepLength), ranLong), location) > bottom + (5 * stepLength)) {
                             y = ranLat +  close(stepLength, t, 150, new LatLng((ranLat + stepLength), ranLong), location);
                         }
                         /**
-                        else if (ranLat + close(-stepLength, t, 150, new LatLng((ranLat - stepLength), ranLong), location) > bottom + (10 * stepLength)) {
-                            y = ranLat + close(-stepLength, t, 150, new LatLng((ranLat - stepLength), ranLong), location);
-                        }
-                        */
+                         else if (ranLat + close(-stepLength, t, 150, new LatLng((ranLat - stepLength), ranLong), location) > bottom + (10 * stepLength)) {
+                         y = ranLat + close(-stepLength, t, 150, new LatLng((ranLat - stepLength), ranLong), location);
+                         }
+                         */
                         else {
                             y = ranLat;
                         }
                     } else {
                         if (ranLat + close(-stepLength, t, 150, new LatLng((ranLat - stepLength), ranLong), location) > bottom + (5 * stepLength)
-                        && ranLat + close(-stepLength, t, 150, new LatLng((ranLat - stepLength), ranLong), location) < top - (5 * stepLength)) {
+                                && ranLat + close(-stepLength, t, 150, new LatLng((ranLat - stepLength), ranLong), location) < top - (5 * stepLength)) {
                             y = ranLat + close(- stepLength, t, 150, new LatLng((ranLat - stepLength), ranLong), location);
                         }
                         /**
-                        else if (ranLat + close(stepLength, t, 150, new LatLng((ranLat + stepLength), ranLong), location) < top - (10 * stepLength)) {
-                            y = ranLat + close(stepLength, t, 150, new LatLng((ranLat + stepLength), ranLong), location);
-                        }
+                         else if (ranLat + close(stepLength, t, 150, new LatLng((ranLat + stepLength), ranLong), location) < top - (10 * stepLength)) {
+                         y = ranLat + close(stepLength, t, 150, new LatLng((ranLat + stepLength), ranLong), location);
+                         }
                          */
                         else {
                             y = ranLat;
@@ -209,26 +206,26 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                     if (r2 < 0.5) {
                         if (ranLong + close(stepLength, t, 150, new LatLng(ranLat, (ranLong + stepLength)), location) < right - (10 * stepLength)
-                        && ranLong + close(stepLength, t, 150, new LatLng(ranLat, (ranLong + stepLength)), location) > left + (10 * stepLength)) {
+                                && ranLong + close(stepLength, t, 150, new LatLng(ranLat, (ranLong + stepLength)), location) > left + (10 * stepLength)) {
                             x = ranLong + close(stepLength, t, 150, new LatLng(ranLat, (ranLong + stepLength)), location);
                         }
                         /**else if (ranLong + close( - stepLength, t, 150, new LatLng(ranLat, (ranLong - stepLength)), location) > left + (10 * stepLength)) {
-                            x = ranLong + close( - stepLength, t, 150, new LatLng(ranLat, (ranLong - stepLength)), location);
-                        }
+                         x = ranLong + close( - stepLength, t, 150, new LatLng(ranLat, (ranLong - stepLength)), location);
+                         }
                          */
-                         else {
+                        else {
                             x = ranLong;
                         }
                     } else {
                         if (ranLong +  close(- stepLength, t, 150, new LatLng(ranLat, (ranLong - stepLength)), location)> left + (5 * stepLength)
-                        && ranLong +  close(- stepLength, t, 150, new LatLng(ranLat, (ranLong - stepLength)), location) < right - (5 * stepLength)) {
+                                && ranLong +  close(- stepLength, t, 150, new LatLng(ranLat, (ranLong - stepLength)), location) < right - (5 * stepLength)) {
                             x = ranLong + close(- stepLength, t, 150, new LatLng(ranLat, (ranLong - stepLength)), location);
                         }
                         /**
 
-                        else if (ranLong + close(stepLength, t, 150, new LatLng(ranLat, (ranLong + stepLength)), location) < right - (10 * stepLength)) {
-                            x = ranLong + close(stepLength, t, 150, new LatLng(ranLat, (ranLong + stepLength)), location);
-                        }
+                         else if (ranLong + close(stepLength, t, 150, new LatLng(ranLat, (ranLong + stepLength)), location) < right - (10 * stepLength)) {
+                         x = ranLong + close(stepLength, t, 150, new LatLng(ranLat, (ranLong + stepLength)), location);
+                         }
                          */
                         else {
                             x = ranLong;
@@ -260,14 +257,14 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
                                 // Actions to do after 10 seconds
                                 //Toast.makeText(GameActivity.this, "YEAHNNN", Toast.LENGTH_SHORT).show();
                                 mMap.clear();
-                                    Handler handler1 = new Handler();
-                                    handler1.postDelayed(new Runnable() {
-                                        public void run() {
-                                            call(y, x, stepLength);
+                                Handler handler1 = new Handler();
+                                handler1.postDelayed(new Runnable() {
+                                    public void run() {
+                                        call(y, x, stepLength);
 
-                                        }
-                                    }, 1);
-                                }
+                                    }
+                                }, 1);
+                            }
                         }, 100);
                     }
                 }
