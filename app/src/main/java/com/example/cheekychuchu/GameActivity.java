@@ -32,12 +32,12 @@ import java.util.Locale;
 import java.util.Random;
 
 public class GameActivity extends FragmentActivity implements OnMapReadyCallback {
-    private static final long START_TIME_IN_MILLIS = 600000;
     private CountDownTimer mCountDownTimer;
+    private static final long START_TIME_IN_MILLIS = 600000;
     private boolean mTimerRunning;
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     private TextView a;
-    protected void timer() {
+    public void timer() {
         a = findViewById(R.id.timer);
         startTimer();
     }

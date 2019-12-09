@@ -79,6 +79,7 @@ public class ChoosingActivity extends AppCompatActivity implements OnMapReadyCal
         go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                GameActivity.timer();
                 Intent intent = new Intent(getApplicationContext(), GameActivity.class);
                 CameraPosition position = gmap.getCameraPosition();
                 float bearing = position.bearing;
