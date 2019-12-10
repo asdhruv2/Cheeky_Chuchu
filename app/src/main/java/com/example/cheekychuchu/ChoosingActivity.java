@@ -92,7 +92,7 @@ public class ChoosingActivity extends AppCompatActivity implements OnMapReadyCal
                 intent.putExtra("Lon", lon);
                 intent.putExtra("tilt", tilt);
                 intent.putExtra("zoom", zoom);
-                Toast.makeText(ChoosingActivity.this, position.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ChoosingActivity.this, position.toString(), Toast.LENGTH_SHORT).show();
                 Log.e("Position", position.toString());
                 startActivity(intent);
             }
@@ -144,7 +144,7 @@ public class ChoosingActivity extends AppCompatActivity implements OnMapReadyCal
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Toast.makeText(this, "AAAAA", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "AAAAA", Toast.LENGTH_SHORT).show();
         gmap = googleMap;
         gmap.setMinZoomPreference(16.8f);
         gmap.setMaxZoomPreference(17.2f);
@@ -153,9 +153,9 @@ public class ChoosingActivity extends AppCompatActivity implements OnMapReadyCal
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                Toast.makeText(ChoosingActivity.this, "h8fw", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ChoosingActivity.this, "h8fw", Toast.LENGTH_SHORT).show();
                 if (location != null) {
-                    Toast.makeText(ChoosingActivity.this, "YEAHHh", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ChoosingActivity.this, "YEAHHh", Toast.LENGTH_SHORT).show();
                     gmap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
                     gmap.setMyLocationEnabled(true);
                 }

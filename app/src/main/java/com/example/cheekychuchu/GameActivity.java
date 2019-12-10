@@ -248,7 +248,7 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
                                 });
 
                         AlertDialog alert11 = builder1.create();
-                        Toast.makeText(GameActivity.this, "catch", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(GameActivity.this, "catch", Toast.LENGTH_SHORT).show();
                         alert11.show();
                     } else {
                         Handler handler = new Handler();
