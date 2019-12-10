@@ -89,6 +89,17 @@ public class GameActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                FusedLocationProviderClient fusedLocationClient =  LocationServices.getFusedLocationProviderClient(getApplicationContext());
+                fusedLocationClient.getLastLocation()
+                        .addOnSuccessListener(GameActivity.this, new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                // Got last known location. In some rare situations this can be null.
+                                if (location != null) {
+                                    mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+                                }
+                            }
+                        });
                 return false;
             }
         });
